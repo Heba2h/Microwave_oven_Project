@@ -9,7 +9,7 @@
 #define mode_8pins 					0x38
 
 
-void LCD_initT(void)
+void LCD_init1(void)
 	{
 	SYSCTL_RCGCGPIO_R |= 0x03; //Enable the clock for PA,PB
 	while ( (SYSCTL_RCGCGPIO_R & 0x03) == 0);
@@ -26,8 +26,7 @@ void LCD_initT(void)
 	GPIO_PORTA_AFSEL_R &=~0x0C;
 	GPIO_PORTA_AMSEL_R &=~ 0x0C;
 	GPIO_PORTA_PCTL_R &= ~ 0x0000FF00;
-}
-
+                  }
 
 void LCD_cmd(unsigned char cmd) 
 {
@@ -37,6 +36,22 @@ void LCD_cmd(unsigned char cmd)
 	Systick_ms(10);
 	GPIO_PORTA_DATA_R &=~0x08;	//enable off
 }
+
+void LCD_init2(void)
+{
+                  LCD_cmd(mode_8pins);
+                   Systick_ms(10);
+	LCD_cmd(display_on);
+                   Systick_ms(10);
+	LCD_cmd(increment_cursor);  
+                   Systick_ms(10);
+	LCD_cmd(cursor_at_1stline);
+                   Systick_ms(10);
+	LCD_cmd(cursor_at_2ndline);
+	Systick_ms(10);
+	LCD_cmd(clear);
+}
+
 
 
 void LCD_data(unsigned char data)
