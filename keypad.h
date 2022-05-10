@@ -1,13 +1,15 @@
 #include "tm4c123gh6pm.h"
 void keypad_init()
 {
-	SYSCTL_RCGCGPIO_R|=0x1;   // clock port a
-	while((SYSCTL_PRGPIO_R & 0x1)==0); // clock status
-	GPIO_PORTA_AFSEL_R =0;  //afsel zeroos 
-	GPIO_PORTA_PCTL_R =0;    // pctl =o
-	GPIO_PORTA_DIR_R =0xf0;  // pin0-3 are inputs and pins 4-7 are outputs
-	GPIO_PORTA_PDR_R =0X0F;  //ACTIVE HIGH
-	GPIO_PORTA_DEN_R =0XFF;  // DIGITAL ENABLED
+	SYSCTL_RCGCGPIO_R|=0x8;   // clock port a
+	while((SYSCTL_PRGPIO_R & 0x8)==0); // clock status
+	GPIO_PORTD_AFSEL_R =0;  //afsel zeroos 
+	GPIO_PORTD_PCTL_R =0;    // pctl =o
+	GPIO_PORTD_DIR_R =0xf0;  // pin0-3 are inputs and pins 4-7 are outputs
+	GPIO_PORTD_PDR_R =0X0F;  //ACTIVE HIGH
+	GPIO_PORTD_DEN_R =0XFF;  // DIGITAL ENABLED
+	GPIO_PORTD_CR_R =0XFF;
+	GPIO_PORTD_AMSEL_R =0x00;
 }
 short i;// number of rows 
 short j;// number of coloms
@@ -20,8 +22,8 @@ char elements[4][4]={{'1','2','3','A'},
                                       };
 char pressed()
 	{ 
-		x=GPIO_PORTA_DATA_R&0x0f;  
-		y=GPIO_PORTA_DATA_R&0xf0;  
+		x=GPIO_PORTD_DATA_R&0x0f;  
+		y=GPIO_PORTD_DATA_R&0xf0;  
 		if((x=1)||(x=2))
        {i=x-1;}
      else if((x=4))
@@ -37,3 +39,6 @@ char pressed()
 		 {j=3;}
 		 return(elements[i][j]);
 	 }
+		 
+			 
+	
