@@ -4,9 +4,9 @@
 //example for Buzzer init : pin_init(0x000001,0x000001,0x000001,0x000000) Buzzer placed on Port A ,first pin , output , Off Status
 //the function includes (PCTL , Lock , Den ,Amsel , ASfel , CR_R, DIR, Data) registers only... To modifiy any other register you have to add it
 //PCTL_R = 0x00000000; no alternate functions
-//LOCK_R = 0x4C4F434B; all ports should be disabled
+//LOCK_R = 0x4C4F434B;  ports should be unlocked
 //DEN_R |= 0x1F; the project is digital only
-//AMSEL_R &=~ 0x1F;  no analog pinsin the project
+//AMSEL_R &=~ 0x1F;  no analog pins in the project
 //AFSEL_R &=~ 0x1F; no alternate function used in the project 
 
 void pin_init(int port_number, int changable_pins, int pins_direction, int data){
