@@ -103,4 +103,76 @@ int main(){
 										break;
 		}
 	}
+Error:
+										LCD_PrintStr("Err");
+										Systick_ms(2000);
+										LCD_PrintStr("Please enter a valid number");
+										Systick_ms(2000);
+										switch(prevoius_state){
+											case Chicken:
+												state = Chicken;
+												break;
+											case Beef:
+												state = Beef;
+												break;
+											case Custom:
+												state = Custom;
+												break;
+										};
+										
+						Cooking:
+										pin_init(0x100000,0x0E,0x0E,0x0E) // LEDs' Pins intiallized and leds are enabled
+										//counting down function
+										if(/sw1 is pressed/){state = Pause;}
+										if (/sw3 is pressed/){
+										prevoius_state= state;
+										state = Door_Check;
+										}
+										state = End;
+						Pause:
+										 while(1){
+											if ( /sw2 is pressed/){
+													state = Cooking;
+													break;
+											 }
+											if ( /sw3 is pressed/){
+													prevoius_state= state;
+													state = Door_Check;
+													break;
+											 } 
+											if ( /sw1 is pressed/){
+													state = Idle;
+													break;
+											 }
+											//display time stays the same
+												Led_Blinking();
+												Systick_ms(1000);
+										 }
+										 break;
+									 
+				 		Door_Check:
+										  while(1){
+												if (/sw3 is not pressed/){
+													switch(prevoius_state){
+														case Pause:
+															state = Pause;
+															break;
+														case Cooking:
+															state = Cooking;
+															break;
+													}
+												}
+												Led_Blinking()
+												Systick_ms(1000);
+											}
+											break;
+							End:
+											pin_init(0x000001,0x000001,0x000001,0x000000) //Buzzer placed on Port A ,first pin , output , off Status
+											end_of_Operation(); // Toggling Leds and Buzzer for 3 seconds
+											state = Idle;
+											Leds_off();
+											break;
+
+		}
+}
 }
