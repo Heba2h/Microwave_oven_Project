@@ -1,25 +1,10 @@
-#ifndef tm4c123gh6pm_h
-#define tm4c123gh6pm_h
-
-#ifndef LCD_time_h
-#define LCD_time_h
-
-#ifndef LCD_h
-#define LCD_h
-
-#ifndef keypad_h
-#define keypad_h
-
-#ifndef Counting_Down_h
-#define Counting_Down_h
-
-#ifndef initializations_h
-#define initializations_h
-
-#ifndef switches.h
-#define switches.h
-
-#endif
+#include "tm4c123gh6pm.h"
+#include "LCD_time.h"
+#include "LCD.h"
+#include "keypad.h"
+#include "Counting_Down.h"
+#include "initializations.h"
+#include "functions.h"
 
 enum state{Idle, Popcorn, Beef, Chicken, Custom, Time_Display, Error, Cooking, Pause, Door_Check, End};
 	
