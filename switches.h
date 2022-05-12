@@ -108,6 +108,6 @@ bool sw3_pressed(void){ //check if sw3 is pressed
 //}
 //void GPIOA_Handler(void){
 //		while(sw3_input() == 0x80 || sw1_input() == 0x10){}
-//		while(sw1_input() != 0x10){NVIC_SystemReset();}
+//		if(sw1_input() != 0x10){NVIC_SystemReset();}
 //		GPIO_PORTA_ICR_R = 0x80;
 //}
