@@ -108,24 +108,24 @@ Error:
 						Cooking:
 										pin_init(0x100000,0x0E,0x0E,0x0E) // LEDs' Pins intiallized and leds are enabled
 										//counting down function
-										if(/sw1 is pressed/){state = Pause;}
-										if (/sw3 is pressed/){
+										if(sw1_pressed()){state = Pause;}
+										if (sw3_pressed()){
 										prevoius_state= state;
 										state = Door_Check;
 										}
 										state = End;
 						Pause:
 										 while(1){
-											if ( /sw2 is pressed/){
+											if (sw2_pressed()){
 													state = Cooking;
 													break;
 											 }
-											if ( /sw3 is pressed/){
+											if (sw3_pressed()){
 													prevoius_state= state;
 													state = Door_Check;
 													break;
 											 } 
-											if ( /sw1 is pressed/){
+											if (sw1_pressed()){
 													state = Idle;
 													break;
 											 }
@@ -137,7 +137,7 @@ Error:
 									 
 				 		Door_Check:
 										  while(1){
-												if (/sw3 is not pressed/){
+												if ( ~(sw3_pressed()) ){
 													switch(prevoius_state){
 														case Pause:
 															state = Pause;
