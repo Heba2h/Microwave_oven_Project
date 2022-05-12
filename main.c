@@ -16,6 +16,9 @@
 #ifndef initializations_h
 #define initializations_h
 
+#ifndef switches.h
+#define switches.h
+
 #endif
 
 enum state{Idle, Popcorn, Beef, Chicken, Custom, Time_Display, Error, Cooking, Pause, Door_Check, End};
@@ -28,7 +31,7 @@ int main(){
 						Idle: 
 										Leds_off();
 										while(1){
-											if (/*sw2 is pressed*/){
+											if (sw2_pressed()){
 												while(1){
 													if ( pressed() == 'A'){
 														state = Popcorn;
