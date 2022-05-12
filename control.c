@@ -16,7 +16,7 @@
 
  }
 
-	void Led_Blinking(){   /toggling the leds
+	void Led_Blinking(){   //toggling the leds
 
 	GPIO_PORTF_DATA_R ^= 0x0E; 
 
