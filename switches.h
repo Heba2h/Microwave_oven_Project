@@ -60,14 +60,14 @@ void sw3_Init(void){ //pin a7
 //		__enable_irq();
 }
 
-unsigned char sw1_input(void){ //pf4
+unsigned char sw1_input(void){ //pf4 check
 		return GPIO_PORTF_DATA_R&0x10;
 }
 
-unsigned char sw2_input(void){// pf0
+unsigned char sw2_input(void){// pf0 check
 		return GPIO_PORTF_DATA_R&0x01;
 }
-unsigned char sw3_input(void){ //pa7
+unsigned char sw3_input(void){ //pa7 check
 		return GPIO_PORTA_DATA_R&0x80;
 }
 bool sw1_pressed(void){ //check if sw1 is pressed
