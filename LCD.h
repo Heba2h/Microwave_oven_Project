@@ -1,12 +1,12 @@
 #include "tm4c123gh6pm.h"
 
-#define	clear                 0x01 
+#define	clear                     0x01 
 #define	cursor_on 	          0x0F        //display_on, cursor_blinking 
 #define cursor_off	          0x0C        //display_on, cursor_off
-#define	increment_cursor 	    0x06        // Entry_mode 
+#define	increment_cursor 	  0x06        // Entry_mode 
 #define	display_on 	          0x0E        //display_on, cursor_on 
 #define	cursor_at_1stline 	  0x80
-#define	cursor_at_2ndline     0xC0
+#define	cursor_at_2ndline         0xC0
 #define mode_8pins 	          0x38
 
 
@@ -54,7 +54,7 @@ void LCD_cmd(unsigned char cmd)
 	GPIO_PORTA_DATA_R |= 0x08; 	//enable on 0000 1000
 	Systick_ms(10);                                            
 	GPIO_PORTA_DATA_R &=~0x08;	//enable off
-                  LCD_cmd(cursor_off);
+        LCD_cmd(cursor_off);
 }
 
 /**
@@ -85,7 +85,7 @@ void LCD_data(unsigned char data)
 	GPIO_PORTA_DATA_R |= 0x08;                  //enable ON
 	Systick_ms(10);
 	GPIO_PORTA_DATA_R &=~0x08;	//enable off
-  LCD_cmd(cursor_off);
+        LCD_cmd(cursor_off);
 	
 }
 
