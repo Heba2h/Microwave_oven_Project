@@ -40,7 +40,7 @@ void LCD_init1(void)
 	GPIO_PORTA_AFSEL_R &=~0x0C; // No alternate function
 	GPIO_PORTA_AMSEL_R &=~ 0x0C;   // Disable analog function
 	GPIO_PORTA_PCTL_R &= ~ 0x0000FF00;  // GPIO clear bit PCTL
-                  }
+  }
 
 /**
 * @detailed : This function take the command which we already defined it in the top of file 
@@ -64,7 +64,7 @@ void LCD_cmd(unsigned char cmd)
 
 void LCD_init2(void)
 {
-                  LCD_cmd(mode_8pins);
+  LCD_cmd(mode_8pins);
 	LCD_cmd(display_on);
 	LCD_cmd(increment_cursor);  
 	LCD_cmd(cursor_at_1stline);
@@ -85,7 +85,7 @@ void LCD_data(unsigned char data)
 	GPIO_PORTA_DATA_R |= 0x08;                  //enable ON
 	Systick_ms(10);
 	GPIO_PORTA_DATA_R &=~0x08;	//enable off
-                  LCD_cmd(cursor_off);
+  LCD_cmd(cursor_off);
 	
 }
 
