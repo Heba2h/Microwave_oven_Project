@@ -50,11 +50,10 @@ void LCD_init1(void)
 void LCD_cmd(unsigned char cmd) 
 {
 	GPIO_PORTA_DATA_R &=~0x04;	//RS = 0 , 0000 0100
-	GPIO_PORTB_DATA_R =cmd ;		//sending command
+	GPIO_PORTB_DATA_R =cmd ;	//sending command
 	GPIO_PORTA_DATA_R |= 0x08; 	//enable on 0000 1000
 	Systick_ms(10);                                            
 	GPIO_PORTA_DATA_R &=~0x08;	//enable off
-        LCD_cmd(cursor_off);
 }
 
 /**
@@ -64,7 +63,7 @@ void LCD_cmd(unsigned char cmd)
 
 void LCD_init2(void)
 {
-  LCD_cmd(mode_8pins);
+        LCD_cmd(mode_8pins);
 	LCD_cmd(display_on);
 	LCD_cmd(increment_cursor);  
 	LCD_cmd(cursor_at_1stline);
@@ -102,6 +101,7 @@ void LCD_PrintStr(unsigned char* msg)
 	{
               LCD_data(msg[i]);
 	}
+	LCD_cmd(cursor_off);
 
 }
 
