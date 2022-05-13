@@ -1,26 +1,35 @@
-#include "Io.h"
+#ifndef Counting_Down_H
+#define Counting_Down_H
+#include "LCD.h"
+#include "delay.h"
 
-void SysTick_Init(void)
+void Counting_Down(int time)
 {
-	NVIC_ST_CTRL_R = 0;
-	NVIC_ST_RELOAD_R = 0x00FFFFFF;
-	NVIC_ST_CURRENT_R = 0;
-	NVIC_ST_CTRL_R = 5;
-}
-void Systick_Wait(int delay)
-{
-	NVIC_ST_RELOAD_R = delay-1;
-	NVIC_ST_CURRENT_R = 0;
-	while((NVIC_ST_CTRL_R & 0x00010000)==0);
-}
-void Systick_ms(int delay)// wait delay*1ms
-{
-	for(unsigned long i=0;i<delay;i++)
-	Systick_Wait(80000);
-}
-void Systick_us(int delay)// wait delay*1us
-{
-	for(unsigned long i=0;i<delay;i++)
-	Systick_Wait(80);
+	int min,sec,min1,min2,sec1,sec2,i,j;
+	min = (int)(time/60);
+	sec = time%60;
+	for(i=min;i>=0;i--)
+	{
+		min2 = (int)(i/10);
+	  min1 = i%10;
+		LCD_cmd(0xC5);
+		LCD_data(min2+48);
+		LCD_cmd(0xC6);
+		LCD_data(min1+48);
+		LCD_cmd(0xC7);
+		LCD_data(':');
+		for(j=sec;j>=0;j--)
+		{
+			sec2 = (int)(j/10);
+	    sec1 = j%10;
+			LCD_cmd(0xC8);
+		LCD_data(sec2+48);
+			LCD_cmd(0xC9);
+		LCD_data(sec1+48);
+			Systick_ms(1000);
+		}
+		sec=59;
+	}
 }
 
+#endif
