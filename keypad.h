@@ -1,44 +1,36 @@
 #include "tm4c123gh6pm.h"
-void keypad_init()
+# include "LCD.h"
+void SystemInit ()
 {
-	SYSCTL_RCGCGPIO_R|=0x8;   // clock port a
-	while((SYSCTL_PRGPIO_R & 0x8)==0); // clock status
-	GPIO_PORTD_AFSEL_R =0;  //afsel zeroos 
-	GPIO_PORTD_PCTL_R =0;    // pctl =o
-	GPIO_PORTD_DIR_R =0xf0;  // pin0-3 are inputs and pins 4-7 are outputs
-	GPIO_PORTD_PDR_R =0X0F;  //ACTIVE HIGH
-	GPIO_PORTD_DEN_R =0XFF;  // DIGITAL ENABLED
-	GPIO_PORTD_CR_R =0XFF;
-	GPIO_PORTD_AMSEL_R =0x00;
+SYSCTL_RCGCGPIO_R |= 0x14;            //enable clc for port C & D  
+  while ((SYSCTL_RCGCGPIO_R&0x14)==0);  //wait for clock to be enabled
+  GPIO_PORTC_CR_R  |= 0xF0;             //allow changes to all the bits in port C
+  GPIO_PORTE_CR_R  |= 0x1E;             //allow changes to all the bits in port E
+  GPIO_PORTC_DIR_R |= 0xF0;             //set directions cols are o/ps
+  GPIO_PORTE_DIR_R |= 0x00;             //set directions raws are i/ps
+  GPIO_PORTE_PDR_R |= 0x1E;             //pull down resistor on Raws
+  GPIO_PORTC_DEN_R |= 0xF0;             //digital enable pins in port C
+  GPIO_PORTE_DEN_R |= 0x1E;             //digital enable pins in port E
 }
-short i;// number of rows 
-short j;// number of coloms
-short x;//temporary to refer to rows
-short y;// temporary to refer to coloms
+
+
 char elements[4][4]={{'1','2','3','A'},
                      {'4','5','6','B'},  // keypads elements
 										 {'7','8','9','C'},
                      {'*','0','#','D'}
                                       };
 char pressed()
-	{ 
-		x=GPIO_PORTD_DATA_R&0x0f;  
-		y=GPIO_PORTD_DATA_R&0xf0;  
-		if((x=1)||(x=2))
-       {i=x-1;}
-     else if((x=4))
-		 {i=2;}
-		 else if((x=8))
-		 {i=3;}
-		 y=y>>4;
-		if((y=1)||(y=2))
-       {j=y-1;}
-     else if((y=4))
-		 {j=2;}
-		 else if((y=8))
-		 {j=3;}
-		 return(elements[i][j]);
-	 }
-		 
-			 
+	{ int i;
+	int j;
+  while(1)
+  {
+    for(j=0;j<4;j++){
+			GPIO_PORTC_DATA_R=(0X10<<j); // 0001 0000
+			Systick_ms(2);
+			for(i=0;i<4;i++)
+			{
+				if((GPIO_PORTE_DATA_R&0x1E)&(0x02<<i)) //0000 0010
+					return elements[i][j];
+		}
+	}}}
 	
