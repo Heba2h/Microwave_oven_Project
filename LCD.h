@@ -1,22 +1,23 @@
 #include "tm4c123gh6pm.h"
-#define	clear                            0x01 
-#define	cursor_on 	 0x0F           //display_on, cursor_blinking 
-#define     cursor_off	 0x0C          //display_on, cursor_off
-#define	increment_cursor 	 0x06         // Entry_mode 
-#define	display_on 	 0x0E        //display_on, cursor_on 
-#define	cursor_at_1stline 	 0x80
+
+#define	clear                 0x01 
+#define	cursor_on 	          0x0F        //display_on, cursor_blinking 
+#define cursor_off	          0x0C        //display_on, cursor_off
+#define	increment_cursor 	    0x06        // Entry_mode 
+#define	display_on 	          0x0E        //display_on, cursor_on 
+#define	cursor_at_1stline 	  0x80
 #define	cursor_at_2ndline     0xC0
-#define mode_8pins 	 0x38
+#define mode_8pins 	          0x38
 
 
 
 /**
-*  @author :       Heba2h
-*  @detailed :    This fuction return the initialization of the LCD i took the 8 bins of Port B and RS,E 2 pins of Port A 
+*  @author :    Heba2h
+*  @detailed :  This fuction return the initialization of the LCD i took the 8 bins of Port B and RS,E 2 pins of Port A 
 *  @Hardware :  for data [D0-D7]  --> [B0-B7]  , RS -> A2  and E -> A3
-*                          Rw & K are grouned -> (GND)    and A ->(VDD )
-*                          But to change the contrast we connected V0 -> POT 
-*                          Change display brightness we connected A -> POT
+*               Rw & K are grouned -> (GND)    and A ->(VDD )
+*               But to change the contrast we connected V0 -> POT 
+*               Change display brightness we connected A -> POT
 *
 *  @param :      All function registers are defined in "tm4c123gh6pm.h" file
 */
@@ -42,7 +43,7 @@ void LCD_init1(void)
                   }
 
 /**
-*  @detailed : This function take the command which we already defined it in the top of file 
+* @detailed : This function take the command which we already defined it in the top of file 
 * @ returns  : its void func with no returns , it displays the action of command   
 */
 
@@ -57,7 +58,7 @@ void LCD_cmd(unsigned char cmd)
 }
 
 /**
-*  @detailed : This function take the command and make the LCD ready to be used 
+* @detailed : This function take the command and make the LCD ready to be used 
 * @ returns  : its void func with no returns , it displays the action of commands   
 */
 
@@ -72,7 +73,7 @@ void LCD_init2(void)
 
 
 /**
-*  @detailed : This function take data with char type and prints it in the LCD ,
+* @detailed : This function take data with char type and prints it in the LCD ,
 *                      where we equates the DATA to be sent to LCD with input data.
 * @ returns  : its void func with no returns , it displays the action   
 */
@@ -89,7 +90,7 @@ void LCD_data(unsigned char data)
 }
 
 /**
-*  @detailed : This function take msg with char* type and prints it in the LCD ,
+* @detailed : This function take msg with char* type and prints it in the LCD ,
 *                      where it loops at the string and print it .
 * @ returns  : its void func with no returns , it displays the action   
 */
