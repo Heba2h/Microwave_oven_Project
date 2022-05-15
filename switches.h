@@ -1,4 +1,5 @@
-#include "tm4c123gh6pm.h"
+#ifndef "tm4c123gh6pm.h"
+#define "tm4c123gh6pm.h"
 #include <stdbool.h>
 #include <core_cm4.h>
 #include <TM4C123.h>
