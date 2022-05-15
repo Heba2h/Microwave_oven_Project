@@ -1,3 +1,5 @@
+#ifndef LCD_H
+#define LCD_H
 #include "tm4c123gh6pm.h"
 
 #define	clear                     0x01 
@@ -104,4 +106,5 @@ void LCD_PrintStr(unsigned char* msg)
 	LCD_cmd(cursor_off);
 
 }
+#endif
 
