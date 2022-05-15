@@ -112,3 +112,4 @@ bool sw3_pressed(void){ //check if sw3 is pressed
 //		if(sw1_input() != 0x10){NVIC_SystemReset();}
 //		GPIO_PORTA_ICR_R = 0x80;
 //}
+#endif
