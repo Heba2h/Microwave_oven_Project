@@ -1,5 +1,7 @@
-#include "tm4c123gh6pm.h"
-# include "LCD.h"
+#ifndef "tm4c123gh6pm.h"
+#define  "tm4c123gh6pm.h"
+# endif
+
 void SystemInit ()
 {
 SYSCTL_RCGCGPIO_R |= 0x14;            //enable clc for port C & D  
@@ -33,4 +35,3 @@ char pressed()
 					return elements[i][j];
 		}
 	}}}
-	
