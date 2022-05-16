@@ -1,7 +1,5 @@
-#ifndef keypad_h
-#define keypad_h
-
-
+#ifndef KEYPAD_H
+#define KEYPAD_H
 void SystemInit ()
 {
 SYSCTL_RCGCGPIO_R |= 0x14;            //enable clc for port C & D  
