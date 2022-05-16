@@ -1,5 +1,6 @@
 #ifndef KEYPAD_H
 #define KEYPAD_H
+#include "tm4c123gh6pm.h"
 void SystemInit ()
 {
 SYSCTL_RCGCGPIO_R |= 0x14;            //enable clc for port C & D  
