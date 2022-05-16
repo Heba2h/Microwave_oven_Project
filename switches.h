@@ -1,4 +1,5 @@
-#include "tm4c123gh6pm.h"
+#ifndef "tm4c123gh6pm.h"
+#define "tm4c123gh6pm.h"
 #include <stdbool.h>
 #include <core_cm4.h>
 #include <TM4C123.h>
@@ -111,3 +112,4 @@ bool sw3_pressed(void){ //check if sw3 is pressed
 //		if(sw1_input() != 0x10){NVIC_SystemReset();}
 //		GPIO_PORTA_ICR_R = 0x80;
 //}
+#endif
