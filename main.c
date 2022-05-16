@@ -16,30 +16,30 @@ char key;
 int previous_state;
 int state = Idle;
 
-void GPIOF_Handler(void){
-        if(state == Time_Display){
-                while(1)
-                {
-                if(sw1_pressed()){
-                        GPIO_PORTF_ICR_R = 0x11;
-                        goto Time_Display;
-                }
-                if(sw2_pressed()){
-                GPIO_PORTF_ICR_R = 0x11;
-                goto exit;
-                }
-                }
-        }
-        if(state == Cooking){
-        while(~sw2_pressed() || (~sw1_pressed()) ){};
-        if(sw1_pressed()) 
-        {
-                GPIO_PORTF_ICR_R = 0x11;
-                goto Idle;
-        }
-    }
-        GPIO_PORTF_ICR_R = 0x11;
-}
+// void GPIOF_Handler(void){
+//         if(state == Time_Display){
+//                 while(1)
+//                 {
+//                 if(sw1_pressed()){
+//                         GPIO_PORTF_ICR_R = 0x11;
+//                         goto Time_Display;
+//                 }
+//                 if(sw2_pressed()){
+//                 GPIO_PORTF_ICR_R = 0x11;
+//                 goto exit;
+//                 }
+//                 }
+//         }
+//         if(state == Cooking){
+//         while(~sw2_pressed() || (~sw1_pressed()) ){};
+//         if(sw1_pressed()) 
+//         {
+//                 GPIO_PORTF_ICR_R = 0x11;
+//                 goto Idle;
+//         }
+//     }
+//         GPIO_PORTF_ICR_R = 0x11;
+// }
 
 
 int main(){
@@ -52,8 +52,8 @@ int main(){
 	
 	while(1){
 		switch(state){
-						case Idle: 
-Idle:								Leds_off();
+						Idle: 
+								Leds_off();
 										LCD_PrintStr("Please Press SW2");
 										LCD_cmd(cursor_at_2ndline);
 										LCD_PrintStr("to Start Op");
