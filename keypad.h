@@ -1,5 +1,5 @@
-#ifndef "keypad_h"
-#define "keypad_h"
+#ifndef keypad_h
+#define keypad_h
 
 
 void SystemInit ()
