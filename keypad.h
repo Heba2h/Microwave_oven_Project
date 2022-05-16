@@ -1,6 +1,6 @@
-#ifndef "tm4c123gh6pm.h"
-#define  "tm4c123gh6pm.h"
-# endif
+#ifndef "keypad_h"
+#define "keypad_h"
+
 
 void SystemInit ()
 {
@@ -35,3 +35,4 @@ char pressed()
 					return elements[i][j];
 		}
 	}}}
+	#endif
