@@ -15,32 +15,12 @@ int time = 0;
 char key;
 int previous_state;
 int state = Idle;
-
-// void GPIOF_Handler(void){
-//         if(state == Time_Display){
-//                 while(1)
-//                 {
-//                 if(sw1_pressed()){
-//                         GPIO_PORTF_ICR_R = 0x11;
-//                         goto Time_Display;
-//                 }
-//                 if(sw2_pressed()){
-//                 GPIO_PORTF_ICR_R = 0x11;
-//                 goto exit;
-//                 }
-//                 }
-//         }
-//         if(state == Cooking){
-//         while(~sw2_pressed() || (~sw1_pressed()) ){};
-//         if(sw1_pressed()) 
-//         {
-//                 GPIO_PORTF_ICR_R = 0x11;
-//                 goto Idle;
-//         }
-//     }
-//         GPIO_PORTF_ICR_R = 0x11;
-// }
-
+int flag;
+int flag2;
+int flag3;
+int x;
+int flagD;
+//char num[4];
 
 int main(){
 	SysTick_Init();
@@ -49,66 +29,83 @@ int main(){
 	SystemInit();
 	sw_Init();
 	sw3_Init();
+  	buzzer_init(); //Buzzer placed on Port A ,first pin , output , off Status+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 	while(1){
 		switch(state){
-						Idle: 
-								Leds_off();
-										LCD_PrintStr("Please Press SW2");
-										LCD_cmd(cursor_at_2ndline);
-										LCD_PrintStr("to Start Op");
-										while(1){
-												if (sw2_pressed())
-														{
+						  
+						case	Idle:	
+										LCD_cmd(clear);
+										Leds_off();
+										LCD_PrintStr("Choose Program");
+										//LCD_cmd(cursor_at_2ndline);
+										//LCD_PrintStr("to Start Op");
+		
+					
 												 while(1)
 														{
-															key = pressed();
+														key = pressed();
 																switch (key)
 																{
 																	case 'A' :
+																	LCD_cmd(clear);
 																				state = Popcorn; 
+																	//LCD_PrintStr("Popcorn");
 																		break;
 																	case 'B':
+																		LCD_cmd(clear);
 																				state = Beef; 
 																		break;
 																	case 'C':
+																		LCD_cmd(clear);
 																				state = Chicken; 
 																		break;
 																	case 'D':
+																		LCD_cmd(clear);
 																				state = Custom; 
 																		break;
 																}
+															if(state != Idle){
+																	break;
+															}
 														}
-												}
-												if( state != Idle){  // di eh lazmtaha
-														break;
-												}
-										}
+													
 										break;
 									
-						Popcorn:
+						case Popcorn:
+										time = 10;
 										LCD_PrintStr("Popcorn");
 										Systick_ms(2000);
-										time = 60;
-										state = Cooking;
+										while(flag ==0){};
+										if (state == 0){
+											break;
+										}
+										state = End;										
+										flag = 0;
 										break;
-						Beef:
-										LCD_PrintStr("Beef Weight?");
+					case	Beef:
+										LCD_PrintStr(" Beef Weight?");
 										key = pressed();
 										if (Valid_Check(key) == 1){
-											LCD_cmd(cursor_at_2ndline);
-											LCD_PrintStr("Weight = ");
+											LCD_cmd(clear);
+											LCD_PrintStr("  Weight = ");
 											LCD_data(key);
 											Systick_ms(2000);
 											time = (key - '0')*30; // rate = 60*0.5 in seceonds
-											state = Cooking;							
+											LCD_cmd(clear);
+											LCD_PrintStr("Please Press SW2");
+											while(flag ==0){};
+												
+											state = End;
+											flag = 0;
+																	
 										}
 										else{
 											previous_state = state;
 											state = Error;
 										}
 										break;
-						Chicken:
+					case	Chicken:
 										LCD_PrintStr("Chicken Weight?");
 										key = pressed();
 										if (Valid_Check(key) == 1){
@@ -117,30 +114,34 @@ int main(){
 											LCD_data(key);
 											Systick_ms(2000);
 											time = (key - '0')*12; // rate = 60*0.2 in seceonds
-											state = Cooking;									
+											LCD_cmd(clear);
+											LCD_PrintStr("Please Press SW2");
+											while(flag ==0){};
+											state = End;
+											flag = 0;									
 										}
 										else{
 											previous_state= state;
 											state = Error;
 										}
 										break;
-						Custom:
+					case	Custom:
 										LCD_PrintStr("Cooking Time?");
 										Systick_ms(2000);
 										state = Time_Display;
 										break;
-						Time_Display:
+					case	Time_Display:
+										LCD_cmd(clear);
+										Systick_ms(500);
 										LCD_time();
 										time = Time_Entry();
 										if (Timer_Check(time) == 1){
-											state = Cooking;
-										}
-										else{
 											previous_state= state;
 											state = Error;
 										}
 										break;
-						Error:
+				case		Error:
+										LCD_cmd(clear);
 										LCD_PrintStr("Err");
 										Systick_ms(2000);
 										LCD_cmd(clear);
@@ -148,11 +149,12 @@ int main(){
 										LCD_cmd(cursor_at_2ndline);
 										LCD_PrintStr("  valid number");
 										Systick_ms(2000);
+										LCD_cmd(clear);
 										state = previous_state;
 										break;
-						Cooking:
+				case		Cooking:
 										LCD_init2();
-										pin_init(0x100000,0x0E,0x0E,0x0E); // LEDs' Pins intiallized and leds are on
+										
 										Counting_Down(time);
 										state = End;
 										break;
@@ -193,12 +195,16 @@ int main(){
 //												Systick_ms(1000);
 //											}
 //											break;
-							End:
-											pin_init(0x000001,0x000001,0x000001,0x000000); //Buzzer placed on Port A ,first pin , output , off Status
+						case	End:
+							        LCD_init2();
+							      	//Buzzer_ON(); // el mafrood tb2a enable*****
 											end_of_Operation(); // Toggling Leds and Buzzer for 3 seconds
 											state = Idle;
 											break;
 
 		}
+		
+
+		
 }
 }
