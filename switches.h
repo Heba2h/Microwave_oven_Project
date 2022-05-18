@@ -56,19 +56,7 @@ void sw_Init(void){//pin f4, f0
 }
 //PRI7: for interrupts 28-31    //PRI0: for interrupts 0-3
 //EN0: for interrupts 0-31
-void RGB_Init(void){
-	SYSCTL_RCGCGPIO_R |= 0x20;
-	while ((SYSCTL_PRGPIO_R &0x20)==0);
-	
-	GPIO_PORTF_LOCK_R = 0x4C4F434B;
-	GPIO_PORTF_AMSEL_R &=~ 0x0E;
-	GPIO_PORTF_CR_R |= 0x0E;
-	GPIO_PORTF_PCTL_R &=~ 0x0000FFF0;
-	GPIO_PORTF_AFSEL_R &=~ 0x0E;
-	GPIO_PORTF_DIR_R |= 0x0E;
-	GPIO_PORTF_DEN_R |= 0x0E;
-	GPIO_PORTF_DATA_R &=~ 0x0E;
-}
+
 void sw3_Init(void){ //pin a7
 		SYSCTL_RCGCGPIO_R |= 0x01; //initialize the clock for port a
 		while((SYSCTL_PRGPIO_R & 0x01) == 0);//Delay
