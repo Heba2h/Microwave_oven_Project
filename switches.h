@@ -7,11 +7,15 @@
 #include "LCD.h"
 #include "control.h"
 
+#define VECTKEY_Pos 16
+#define SYSRESETREQ_Msk (1UL << 2)
+
+
 extern int time;
 extern int flag;
 extern int flag2;
 extern int flagD;
-extern int state;
+extern enum STATE state;
 extern char num[4];
 extern char key;
 extern int flag3;
@@ -81,8 +85,8 @@ void sw3_Init(void){ //pin a7
 		GPIO_PORTA_IBE_R &= ~0x80; //pa7 is not both edges
 		GPIO_PORTA_IEV_R &= ~0x80; //pa7 is a falling edge event
 		GPIO_PORTA_ICR_R |= 0x80; //clear flags
-		GPIO_PORTA_IM_R |= 0x80; //arm interrupt on pf4
-		//interrupt will come from pf4
+		GPIO_PORTA_IM_R |= 0x80; //arm interrupt on pA7
+		//interrupt will come from pA7
 		NVIC_PRI0_R = ((NVIC_PRI0_R & 0xFFFFFF00) | (0x000000E0)); //priority 7
 		NVIC_EN0_R |= 0x00000001; //enable interrupt 0 in NVIC //interrupt for port A
 		__enable_irq();
@@ -127,7 +131,9 @@ void Counting_Down(int time);
 void GPIOF_Handler(){
 	 if ((GPIO_PORTF_MIS_R & 0x01)) /* check if interrupt is caused by PF0/SW2 */
     {
-		//GPIO_PORTF_ICR_R &=~ 0x10;
+			//GPIO_PORTF_ICR_R &=~ 0x10;
+			RGB_Init();
+			Leds_on();
 			Counting_Down(time);
 			flag =1;
 		}
@@ -144,8 +150,13 @@ void GPIOF_Handler(){
 		GPIO_PORTF_ICR_R |= 0x11;
 }
 
-void GPIOA_Handler(){
-					flag3 = 1;
-					GPIO_PORTA_ICR_R |= 0x80;
-}
+//void SystemReset(void){
+//	NVIC_APINT_R = ((0x5FA << VECTKEY_Pos) | (SYSRESETREQ_Msk));
+//	while(1){};
+//}
+
+//void GPIOA_Handler(){
+//					flag3 = 1;
+//					GPIO_PORTA_ICR_R |= 0x80;
+//}
 #endif
