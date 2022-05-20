@@ -14,11 +14,11 @@
 extern int time;
 extern int flag;
 extern int flag2;
-extern int flagD;
-extern enum STATE state;
+extern int flag3;
+//extern int  state;
 extern char num[4];
 extern char key;
-extern int flag3;
+
 
 //extern int Time_Display;
 
@@ -68,15 +68,6 @@ void sw3_Init(void){ //pin a7
 		GPIO_PORTA_DEN_R |= 0x80; //enable digital for sw3
 		GPIO_PORTA_PUR_R |= 0x80; //active low
 	
-		//interrupt
-		GPIO_PORTA_IS_R &= ~0x80;  //pa7 is edge sensitive
-		GPIO_PORTA_IBE_R &= ~0x80; //pa7 is not both edges
-		GPIO_PORTA_IEV_R &= ~0x80; //pa7 is a falling edge event
-		GPIO_PORTA_ICR_R |= 0x80; //clear flags
-		GPIO_PORTA_IM_R |= 0x80; //arm interrupt on pA7
-		//interrupt will come from pA7
-		NVIC_PRI0_R = ((NVIC_PRI0_R & 0xFFFFFF00) | (0x000000E0)); //priority 7
-		NVIC_EN0_R |= 0x00000001; //enable interrupt 0 in NVIC //interrupt for port A
 		__enable_irq();
 }
 
@@ -114,37 +105,5 @@ bool sw3_pressed(void){ //check if sw3 is pressed
 				return false;
 		}
 }
-void Counting_Down(int time);
-
-void GPIOF_Handler(){
-	 if ((GPIO_PORTF_MIS_R & 0x01)) /* check if interrupt is caused by PF0/SW2 */
-    {
-			//GPIO_PORTF_ICR_R &=~ 0x10;
-			RGB_Init();
-			Leds_on();
-			Counting_Down(time);
-			flag =1;
-		}
-		
-		else if ((GPIO_PORTF_MIS_R & 0x10) && key == 'D')
-		{
-			num[0] ='0';
-			num[1] ='0';
-			num[2] ='0';
-			num[3] ='0';
-			LCD_time();
-			
-		}
-		GPIO_PORTF_ICR_R |= 0x11;
-}
-
-//void SystemReset(void){
-//	NVIC_APINT_R = ((0x5FA << VECTKEY_Pos) | (SYSRESETREQ_Msk));
-//	while(1){};
-//}
-
-//void GPIOA_Handler(){
-//					flag3 = 1;
-//					GPIO_PORTA_ICR_R |= 0x80;
-//}
 #endif
+

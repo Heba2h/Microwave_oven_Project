@@ -96,7 +96,7 @@ void LCD_data(unsigned char data)
 * @ returns  : its void func with no returns , it displays the action   
 */
 
-void LCD_PrintStr(unsigned char* msg)
+void LCD_PrintStr( char* msg)
 {
 	int i;
 	for(i=0 ; msg[i] != '\0'; i++)

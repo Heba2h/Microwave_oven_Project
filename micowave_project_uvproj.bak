@@ -415,6 +415,56 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
+            <File>
+              <FileName>control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\control.h</FilePath>
+            </File>
+            <File>
+              <FileName>Counting_Down.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Counting_Down.h</FilePath>
+            </File>
+            <File>
+              <FileName>delay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\delay.h</FilePath>
+            </File>
+            <File>
+              <FileName>functions.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\functions.h</FilePath>
+            </File>
+            <File>
+              <FileName>initializations.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\initializations.h</FilePath>
+            </File>
+            <File>
+              <FileName>keypad.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\keypad.h</FilePath>
+            </File>
+            <File>
+              <FileName>LCD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\LCD.h</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_Time.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\LCD_Time.h</FilePath>
+            </File>
+            <File>
+              <FileName>switches.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\switches.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm4c123gh6pm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\tm4c123gh6pm.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
