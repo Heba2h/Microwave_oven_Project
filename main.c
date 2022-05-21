@@ -3,7 +3,6 @@
 #include "LCD.h"
 #include "Keypad.h"
 #include "Counting_Down.h"
-#include "initializations.h"
 #include "functions.h"
 #include "switches.h"
 #include "control.h"

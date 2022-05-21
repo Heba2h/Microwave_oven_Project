@@ -30,9 +30,9 @@ void LCD_init1(void)
 	while ( (SYSCTL_RCGCGPIO_R & 0x03) == 0); 
 
 	//Port B
-	GPIO_PORTB_DIR_R = 0xFF;    //PB 76543210 output 
-	GPIO_PORTB_DEN_R = 0xFF;   // Enable digital pins PB7-PB0
-	GPIO_PORTB_AFSEL_R = 0x00;   // No alternate function
+	GPIO_PORTB_DIR_R = 0xFF;    // PB 76543210 output 
+	GPIO_PORTB_DEN_R = 0xFF;    // Enable digital pins PB7-PB0
+	GPIO_PORTB_AFSEL_R = 0x00;  // No alternate function
 	GPIO_PORTB_AMSEL_R = 0x00;  // Disable analog function
 	GPIO_PORTB_PCTL_R = 0x00000000; // GPIO clear bit PCTL
 	
