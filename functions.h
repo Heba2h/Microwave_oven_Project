@@ -14,7 +14,7 @@ bool Valid_Check(char c){
 		return false;	
 }
 
-bool Timer_Check(int t)
+bool Timer_Check(int t){
 		return (( t >= 1 && t <= 1800) == 1 )? 1:0;
-
+}
 #endif
