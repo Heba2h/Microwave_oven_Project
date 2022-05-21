@@ -16,29 +16,23 @@
 
  } 
 
- void Buzzer_ON(){ // toggling the buzzer
-
-	   GPIO_PORTD_DATA_R |= 0x01; 
-
- }
-void Buzzer_OFF(){ // toggling the buzzer
-
-	   GPIO_PORTD_DATA_R &= ~0x01;
-
- }
-	void Led_Blinking(){   //toggling the leds
-
+	void Led_Buzzer_Blinking(){   //toggling the leds
+	GPIO_PORTD_DATA_R ^= 0x04;
 	GPIO_PORTF_DATA_R ^= 0x0E; 
 
 }
+	void Led_Blinking(){ //Toggling the Leds
+	GPIO_PORTF_DATA_R ^= 0x0E; 
+	
+	}
 
- void end_of_Operation(){  // should be called when countdown is equal to zero (end Case ) ( if     ((NVIC_ST_CTRL_R & 0x000100000) == 0x01);  ))))))
+ void end_of_Operation(){  //called in the End Case
 
 		int i;
 
 	for(i =0;i<=5;i++){ 
 
-		Led_Blinking();
+		Led_Buzzer_Blinking();
 		Systick_ms(500);
  }
 } 
@@ -47,13 +41,13 @@ void Buzzer_OFF(){ // toggling the buzzer
 	while ((SYSCTL_PRGPIO_R &0x08)==0);
 	
 	GPIO_PORTD_LOCK_R = 0x4C4F434B;
-	GPIO_PORTD_AMSEL_R &=~ 0x01;
-	GPIO_PORTD_CR_R |= 0x01;
-	GPIO_PORTD_PCTL_R &=~ 0x0000000F;
-	GPIO_PORTD_AFSEL_R &=~ 0x01;
-	GPIO_PORTD_DIR_R |= 0x01;
-	GPIO_PORTD_DEN_R |= 0x01;
-	GPIO_PORTD_DATA_R &=~ 0x01;
+	GPIO_PORTD_AMSEL_R &=~ 0x04;
+	GPIO_PORTD_CR_R |= 0x04;
+	GPIO_PORTD_PCTL_R &=~ 0x00000F00;
+	GPIO_PORTD_AFSEL_R &=~ 0x04;
+	GPIO_PORTD_DIR_R |= 0x04;
+	GPIO_PORTD_DEN_R |= 0x04;
+	GPIO_PORTD_DATA_R &=~ 0x04;
 }
 void RGB_Init(void) {
 	SYSCTL_RCGCGPIO_R |= 0x20;
