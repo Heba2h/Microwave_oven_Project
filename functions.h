@@ -15,10 +15,6 @@ bool Valid_Check(char c){
 }
 
 bool Timer_Check(int t){
-		if ( t >= 60 && t <= 1800 ){
-	
-			return true;
-		}
-		return false;
+		if ( t >= 60 && t <= 1800 )? 1:0;
 }
 #endif
