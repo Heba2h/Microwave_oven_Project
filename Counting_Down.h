@@ -37,7 +37,10 @@ void pause_stop(){
                     }
             if ( flag3 == 1){
                    // while(sw3_pressed()){}
-                    while(!sw2_pressed() || sw3_pressed() ){}
+                    while(!sw2_pressed() || sw3_pressed() ){
+			    Led_Blinking();
+			    Systick_ms(350);
+		    }
                     flag3 = 0;
                 }
 
