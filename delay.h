@@ -17,12 +17,14 @@ void Systick_Wait(int delay)
 }
 void Systick_ms(int delay)// wait delay*1ms
 {
-	for(unsigned long i=0;i<delay;i++)
+	unsigned long i;
+	for( i=0;i<delay;i++)
 	Systick_Wait(16000);
 }
 void Systick_us(int delay)// wait delay*1us
 {
-	for(unsigned long i=0;i<delay;i++)
+	unsigned long i;
+	for( i=0;i<delay;i++)
 	Systick_Wait(16);
 }
 #endif
