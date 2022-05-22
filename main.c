@@ -155,7 +155,9 @@ int main(){
 					LCD_time();
 		      			ready=1;
 					time = Time_Entry();
+					if (state !=Error){
 					state = End;
+					}
 		      			flag = 0;			
 					break;
 		
