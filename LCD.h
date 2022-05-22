@@ -1,3 +1,5 @@
+#ifndef LCD_H
+#define LCD_H
 #include "tm4c123gh6pm.h"
 
 #define	clear                     0x01 
@@ -12,14 +14,14 @@
 
 
 /**
-*  @author :    Heba2h
-*  @detailed :  This fuction return the initialization of the LCD i took the 8 bins of Port B and RS,E 2 pins of Port A 
-*  @Hardware :  for data [D0-D7]  --> [B0-B7]  , RS -> A2  and E -> A3
+*  @author      Heba2h
+*  @detailed    This fuction return the initialization of the LCD i took the 8 bins of Port B and RS,E 2 pins of Port A 
+*  @Hardware    for data [D0-D7]  --> [B0-B7]  , RS -> A2  and E -> A3
 *               Rw & K are grouned -> (GND)    and A ->(VDD )
 *               But to change the contrast we connected V0 -> POT 
 *               Change display brightness we connected A -> POT
 *
-*  @param :      All function registers are defined in "tm4c123gh6pm.h" file
+*  @param       All function registers are defined in "tm4c123gh6pm.h" file
 */
  
 void LCD_init1(void)
@@ -28,9 +30,9 @@ void LCD_init1(void)
 	while ( (SYSCTL_RCGCGPIO_R & 0x03) == 0); 
 
 	//Port B
-	GPIO_PORTB_DIR_R = 0xFF;    //PB 76543210 output 
-	GPIO_PORTB_DEN_R = 0xFF;   // Enable digital pins PB7-PB0
-	GPIO_PORTB_AFSEL_R = 0x00;   // No alternate function
+	GPIO_PORTB_DIR_R = 0xFF;    // PB 76543210 output 
+	GPIO_PORTB_DEN_R = 0xFF;    // Enable digital pins PB7-PB0
+	GPIO_PORTB_AFSEL_R = 0x00;  // No alternate function
 	GPIO_PORTB_AMSEL_R = 0x00;  // Disable analog function
 	GPIO_PORTB_PCTL_R = 0x00000000; // GPIO clear bit PCTL
 	
@@ -58,7 +60,7 @@ void LCD_cmd(unsigned char cmd)
 
 /**
 * @detailed : This function take the command and make the LCD ready to be used 
-* @ returns  : its void func with no returns , it displays the action of commands   
+* //returns    its void func with no returns , it displays the action of commands   
 */
 
 void LCD_init2(void)
@@ -72,9 +74,9 @@ void LCD_init2(void)
 
 
 /**
-* @detailed : This function take data with char type and prints it in the LCD ,
+* @detailed  This function take data with char type and prints it in the LCD ,
 *                      where we equates the DATA to be sent to LCD with input data.
-* @ returns  : its void func with no returns , it displays the action   
+*  //returns  its void func with no returns , it displays the action   
 */
 
 void LCD_data(unsigned char data)
@@ -89,12 +91,12 @@ void LCD_data(unsigned char data)
 }
 
 /**
-* @detailed : This function take msg with char* type and prints it in the LCD ,
+* @detailed   This function take msg with char* type and prints it in the LCD ,
 *                      where it loops at the string and print it .
-* @ returns  : its void func with no returns , it displays the action   
+* //returns   its void func with no returns , it displays the action   
 */
 
-void LCD_PrintStr(unsigned char* msg)
+void LCD_PrintStr( char* msg)
 {
 	int i;
 	for(i=0 ; msg[i] != '\0'; i++)
@@ -104,4 +106,5 @@ void LCD_PrintStr(unsigned char* msg)
 	LCD_cmd(cursor_off);
 
 }
+#endif
 

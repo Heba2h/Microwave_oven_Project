@@ -1,163 +1,182 @@
 #include "tm4c123gh6pm.h"
 #include "LCD_time.h"
 #include "LCD.h"
-#include "keypad.h"
+#include "Keypad.h"
 #include "Counting_Down.h"
-#include "initializations.h"
 #include "functions.h"
+#include "switches.h"
+#include "control.h"
+#include "delay.h"
+#include "interrupts_handlers.h"
 
-enum state{Idle, Popcorn, Beef, Chicken, Custom, Time_Display, Error, Cooking, Pause, Door_Check, End};
+
+enum state{Idle, Popcorn, Beef, Chicken, Custom, Time_Display, Error,End};
 	
-int main(){
-	int state = Idle;
-	int prevoius_state;
-	while(1){
-		switch(state){
-						Idle: 
-										Leds_off();
-										while(1){
-											if (sw2_pressed()){
-												while(1){
-													if ( pressed() == 'A'){
-														state = Popcorn;
-														break;
-													}
-													if ( pressed() == 'B'){
-														state = Beef;
-														break;
-													}
-													if ( pressed() == 'C'){
-														state = Chicken;
-														break;
-													}
-													if ( pressed() == 'D'){
-														state = Custom;
-														break;
-													}
-													
-												}
-											}
-											if( state != Idle){
-												break;
-											}
-										}
-										break;
-									
-						Popcorn:
-										LCD_PrintStr("Popcorn");
-										//counting down function
-										state = Cooking;
-										break;
-						Beef:
-										LCD_PrintStr("Beef Weight?");
-										if (Error_Check(pressed()) == 1){
-											LCD_data(pressed());
-											Systick_ms(2000);
-											int new_time = (pressed() - '0')*30; // rate = 60*0.5 in seceonds
-											//counting down function
-											state = Cooking;									
-										}
-										else{
-											prevoius_state= state;
-											state = Error;
-										}
-										break;
-						Chicken:
-										LCD_PrintStr("Chicken Weight?");
-										if (Error_Check(pressed()) == 1){
-											LCD_data(pressed());
-											Systick_ms(2000);
-											int new_time = (pressed() - '0')*12; // rate = 60*0.2 in seceonds
-											//counting down function
-											state = Cooking;									
-										}
-										else{
-											prevoius_state= state;
-											state = Error;
-										}
-										break;
-						Custom:
-										LCD_PrintStr("Cooking Time?");
-						Time_Display:
-										LCD_time();
-										Time_Entry();//need to be modified lcd_time in time_entry
-										//show how to go to error if more than 30 minuits
-										state = Cooking;
-										//else
-										prevoius_state= state;
-										break;
-		}
-	}
-Error:
-										LCD_PrintStr("Err");
-										Systick_ms(2000);
-										LCD_PrintStr("Please enter a valid number");
-										Systick_ms(2000);
-										switch(prevoius_state){
-											case Chicken:
-												state = Chicken;
-												break;
-											case Beef:
-												state = Beef;
-												break;
-											case Custom:
-												state = Custom;
-												break;
-										};
-										
-						Cooking:
-										pin_init(0x100000,0x0E,0x0E,0x0E) // LEDs' Pins intiallized and leds are enabled
-										//counting down function
-										if(sw1_pressed()){state = Pause;}
-										if (sw3_pressed()){
-										prevoius_state= state;
-										state = Door_Check;
-										}
-										state = End;
-						Pause:
-										 while(1){
-											if (sw2_pressed()){
-													state = Cooking;
-													break;
-											 }
-											if (sw3_pressed()){
-													prevoius_state= state;
-													state = Door_Check;
-													break;
-											 } 
-											if (sw1_pressed()){
-													state = Idle;
-													break;
-											 }
-											//display time stays the same
-												Led_Blinking();
-												Systick_ms(1000);
-										 }
-										 break;
-									 
-				 		Door_Check:
-										  while(1){
-												if ( ~(sw3_pressed()) ){
-													switch(prevoius_state){
-														case Pause:
-															state = Pause;
-															break;
-														case Cooking:
-															state = Cooking;
-															break;
-													}
-												}
-												Led_Blinking()
-												Systick_ms(1000);
-											}
-											break;
-							End:
-											pin_init(0x000001,0x000001,0x000001,0x000000) //Buzzer placed on Port A ,first pin , output , off Status
-											end_of_Operation(); // Toggling Leds and Buzzer for 3 seconds
-											state = Idle;
-											Leds_off();
-											break;
+int time ;
+char key;
+int previous_state;
+int state = Idle;
+int flag;
+int flag2;
+int flag3;
+bool check;
+int ready;
 
-		}
-}
+
+/**
+*  @detailed  In this project ,We are aiming to implement a Microwave System 
+* 						firsly, flages gonna be clarified:
+*             (flag -> refers to sw2 (start button)
+*             ,flag2 -> refers to sw1 (start button)             
+*             ,flag3 -> refers to sw3 (start button), 
+*							,check -> returns a bool of check funtion in state 'Time_Display'
+*											  to check the validation of inputs
+*							,ready -> ready is flaged to 1 when its time to start cooking.
+*												We made this flag because sw2 is interrupt so it can 
+*  											be used anywhere in the code, so to limit its fuctionality 
+*												and make sw2 do not affect the whole program and dont go 
+*                       immediately to cooking state & stay in same state till its time to cook.)
+*							Secondly, main operations will be explained:
+*             The main starts by intializing then taking in put from user to go to a specific case
+*             and runs its scope till it reach to end state and restarts from the begining. 
+*
+*  @param     All function registers are defined in "tm4c123gh6pm.h" file
+*/
+
+
+int main(){
+	SysTick_Init();
+	LCD_init1();
+	LCD_init2();
+	SystemInit();
+	sw_Init();
+	sw3_Init();
+  buzzer_init();
+
+	while(1){
+		check= true;
+		ready=0;
+		switch(state){
+						  
+		case Idle:	
+					LCD_cmd(clear);
+					Leds_off();
+	      	time = 0;
+          LCD_PrintStr("Choose Program");					
+           while(1)
+						{
+						   key = pressed();
+						   switch (key)
+    {
+                case 'A' :
+								LCD_cmd(clear);
+								state = Popcorn; 
+								break;
+							case 'B':
+								LCD_cmd(clear);
+                state = Beef; 
+                break;
+							case 'C':
+								LCD_cmd(clear);
+								state = Chicken; 
+								break;
+							case 'D':
+                LCD_cmd(clear);
+								state = Custom; 
+								break;
+							    }
+						  if(state != Idle)
+								break;							
+						 }
+													
+						break;					
+		case Popcorn:
+					 time = 5;
+					 LCD_PrintStr("Popcorn");
+					 Systick_ms(2000);
+	         ready=1;
+					 while(flag ==0){}				 			
+					 state = End;										
+					 flag = 0;
+					 break;
+		case Beef:
+				         LCD_PrintStr(" Beef Weight?");
+                 key = pressed();
+					    	if (Valid_Check(key) == 1){
+							LCD_cmd(clear);
+							LCD_PrintStr("  Weight = ");
+							LCD_data(key);
+							Systick_ms(2000);
+							time = (key - '0')*30; // rate = 60*0.5 in seceonds
+							LCD_cmd(clear);
+							LCD_PrintStr("Please Press SW2");
+							ready=1;
+							while(flag ==0){};
+							state = End;
+							flag = 0;
+							}
+						 else{
+							previous_state = state;
+							state = Error;
+							}
+					     break;
+		case Chicken:
+					LCD_PrintStr("Chicken Weight?");
+					key = pressed();
+					if (Valid_Check(key) == 1){
+						LCD_cmd(clear);
+						LCD_PrintStr("Weight = ");
+						LCD_data(key);
+						Systick_ms(2000);
+						time = (key - '0')*12; // rate = 60*0.2 in seceonds
+						LCD_cmd(clear);
+						LCD_PrintStr("Please Press SW2");
+						ready=1;
+						while(flag ==0){};
+						state = End;
+						flag = 0;									
+					}
+					else{
+						previous_state= state;
+						state = Error;
+					}
+					break;
+		 case Custom:
+					LCD_PrintStr("Cooking Time?");
+					Systick_ms(2000);
+					state = Time_Display;
+					break;
+		 
+		 
+	  case Time_Display:
+			
+					LCD_cmd(clear);
+					Systick_ms(500);
+					LCD_time();
+		      ready=1;
+					time = Time_Entry();
+		      flag = 0;			
+					break;
+		
+		 case Error:
+					LCD_cmd(clear);
+					LCD_PrintStr("Err");
+					Systick_ms(2000);
+					LCD_cmd(clear);
+					LCD_PrintStr(" Please enter a");
+					LCD_cmd(cursor_at_2ndline);
+					LCD_PrintStr("  valid number");
+					Systick_ms(2000);
+					LCD_cmd(clear);
+					state = previous_state;
+					break;
+									 
+		 case End:
+				LCD_init2();
+				end_of_Operation(); // Toggling Leds and Buzzer for 3 seconds
+				state = Idle;
+				break;
+
+	      }		
+    } 
 }
