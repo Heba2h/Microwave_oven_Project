@@ -5,7 +5,7 @@
 *  @author      Honda123987
 *  @detailed    This fuction return the initialization of the keypad i took the 4 bins of Port C  4 pins of Port E 
 *  @Hardware
-* 		[PE1 - PE4] -> [R1 - R4]  Raws
+* 		[PE1 - PE4] -> [R1 - R4]  Rows
 * 		[PC4 - PC7] -> [C1 - C4]  Cols
 *  
 *  @param       All function registers are defined in "tm4c123gh6pm.h" file
@@ -17,7 +17,7 @@ SYSCTL_RCGCGPIO_R |= 0x14;              //enable clc for port C & E
   GPIO_PORTC_CR_R  |= 0xF0;             //allow changes to all the bits in port C
   GPIO_PORTE_CR_R  |= 0x1E;             //allow changes to all the bits in port E
   GPIO_PORTC_DIR_R |= 0xF0;             //set directions for pins [PC4-PC7] which are used as coloums to be o/ps
-  GPIO_PORTE_DIR_R &= ~0x1E;             //set directions for pins [PE1-PE4] which are used as raws to be i/ps
+  GPIO_PORTE_DIR_R &= ~0x1E;             //set directions for pins [PE1-PE4] which are used as rows to be i/ps
   GPIO_PORTE_PDR_R |= 0x1E;             //pull down resistor on Raws 
   GPIO_PORTC_DEN_R |= 0xF0;             //digital enable pins [PC4-PC7] in port C
   GPIO_PORTE_DEN_R |= 0x1E;             //digital enable pins [PE1-PE4] in port E
@@ -32,10 +32,10 @@ char elements[4][4]={{'1','2','3','A'},
 /**
 * @detailed   This function returns the value of a key have been pressed at the moment the function had been called. 
 *             It simply makes a 2 nested loops one to apply +3.3 v (digital output) to the keypad's coloums one by one 
-*	      and the second one read each keypad's row (digital inputs) one by one and if it read 1 from a raw it means
-*             that this raw contain apresses button and by knowing from the first loop which coloum on it the +3.3 v is applied
+*	      and the second one read each keypad's row (digital inputs) one by one and if it read 1 from a row it means
+*             that this raw contain a pressed button and by knowing from the first loop which coloum on it the +3.3 v is applied
 *             we will be able to determine which button is pressed at this moment.	    
-*             had been pressd and another loop to determine the row of that button. 
+*              
 * @ returns   this function return the pressed key on the keypad         
 */
 char pressed()
