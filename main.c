@@ -62,7 +62,7 @@ int main(){
 					LCD_cmd(clear);
 					Leds_off();
 	      	time = 0;
-          LCD_PrintStr("Choose Program");					
+          LCD_PrintStr("Choose a Program");					
            while(1)
 						{
 						   key = pressed();
@@ -153,9 +153,10 @@ int main(){
 					LCD_cmd(clear);
 					Systick_ms(500);
 					LCD_time();
-		      ready=1;
+		      			ready=1;
 					time = Time_Entry();
-		      flag = 0;			
+					state = End;
+		      			flag = 0;			
 					break;
 		
 		 case Error:
@@ -173,6 +174,7 @@ int main(){
 									 
 		 case End:
 				LCD_init2();
+				LCD_PrintStr(" Happy Meal ^_^");
 				end_of_Operation(); // Toggling Leds and Buzzer for 3 seconds
 				state = Idle;
 				break;
