@@ -10,6 +10,9 @@
 *  
 *  @param       All function registers are defined in "tm4c123gh6pm.h" file
 */
+
+extern int flag;
+
 void SystemInit ()
 {
 SYSCTL_RCGCGPIO_R |= 0x14;              //enable clc for port C & E  
@@ -55,6 +58,10 @@ char pressed()
 			{
 				if((GPIO_PORTE_DATA_R&0x1E)&(0x02<<i)) 
 					return elements[i][j];  //return the pressed key
+			}
 		}
-	}}}
-	#endif
+	}
+		return 0;
+}
+#endif
+	
