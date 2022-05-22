@@ -46,14 +46,14 @@ char pressed()
     for(j=0;j<4;j++)
  // to apply +3.3 v (digital output) to the keypad's coloums one by one
 		{
-			GPIO_PORTC_DATA_R=(0X10<<j); // 0001 0000     
+			GPIO_PORTC_DATA_R=(0X10<<j);      
 			Systick_ms(2);
 			for(i=0;i<4;i++)
             //	read each keypad's row (digital inputs) one by one 		
 
 			{
-				if((GPIO_PORTE_DATA_R&0x1E)&(0x02<<i)) //0000 0010
-					return elements[i][j];
+				if((GPIO_PORTE_DATA_R&0x1E)&(0x02<<i)) 
+					return elements[i][j];  //return the pressed key
 		}
 	}}}
 	#endif
