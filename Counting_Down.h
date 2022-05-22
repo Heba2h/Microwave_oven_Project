@@ -19,7 +19,7 @@ void pause_stop(){
                       if ( flag2 == 1){
                         while(!sw2_pressed() && !sw1_pressed()){
                             Led_Blinking();
-													  Systick_ms(350);												
+													  Systick_ms(500);												
                         }
                         if(sw1_pressed()){
                             SystemReset();
@@ -39,7 +39,7 @@ void pause_stop(){
                    // while(sw3_pressed()){}
                     while(!sw2_pressed() || sw3_pressed() ){
 			    Led_Blinking();
-			    Systick_ms(350);
+			    Systick_ms(500);
 		    }
                     flag3 = 0;
                 }
