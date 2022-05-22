@@ -91,7 +91,7 @@ int main(){
 													
 						break;					
 		case Popcorn:
-					 time = 5;
+					 time = 60;
 					 LCD_PrintStr("Popcorn");
 					 Systick_ms(2000);
 	         ready=1;
