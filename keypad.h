@@ -42,6 +42,7 @@ char pressed()
 	{ int i;
 	int j;
   while(flag != 1)
+  // while SW2 not pressed
   {
     for(j=0;j<4;j++)
  // to apply +3.3 v (digital output) to the keypad's coloums one by one
