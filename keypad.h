@@ -23,7 +23,7 @@ char elements[4][4]={{'1','2','3','A'},
 char pressed()
 	{ int i;
 	int j;
-  while(while(flag != 1))
+  while(flag != 1)
   {
     for(j=0;j<4;j++){
 			GPIO_PORTC_DATA_R=(0X10<<j); // 0001 0000
