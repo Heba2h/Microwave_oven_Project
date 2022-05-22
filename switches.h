@@ -14,12 +14,10 @@ extern int time;
 extern int flag;
 extern int flag2;
 extern int flag3;
-//extern int  state;
-extern char num[4];
 extern char key;
 
 
-//extern int Time_Display;
+
 
 void sw_Init(void){//pin f4, f0
 		SYSCTL_RCGCGPIO_R |= 0x20; //1) initialize the clock of portf
@@ -66,8 +64,6 @@ void sw3_Init(void){ //pin a7
 		GPIO_PORTA_DIR_R &= ~0x80; //pa7 is input
 		GPIO_PORTA_DEN_R |= 0x80; //enable digital for sw3
 		GPIO_PORTA_PUR_R |= 0x80; //active low
-	
-		__enable_irq();
 }
 
 unsigned char sw1_input(void){ //pf4 check
