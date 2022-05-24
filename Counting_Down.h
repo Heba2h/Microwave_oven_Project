@@ -10,6 +10,15 @@ extern int state;
 extern int flag2;
 extern int flag3;
 
+
+/**
+*  @author      Aser-ElDahshan
+*  @detailed    This fuction represents the pause state. Each iteration in counting down goes to this function checking if switch 1 is pressed or the door is open.
+*		If switch 1 is pressed the leds start blinking and counting down pauses waiting for switch 2 to be pressed to resume or switch 1 to be pressed to return 
+*		to the idle state and exits counting down. If the door is open, leds start blinking waiting this time the door to close then checks if switch2 is pressed
+*		while the door is still closed to resume counting down.	
+*/
+
 void pause_stop(){
 	            if (GPIO_PORTF_MIS_R & 0x10) // check if interrupt causes by PF4/SW1 /
                     {
@@ -47,6 +56,13 @@ void pause_stop(){
 
 
 }
+
+/**
+*  @author      Aser-ElDahshan
+*  @detailed    This fuction takes the time in seconds from the different cases and divides it into 4 digits, 2 for min and 2 for sec
+*		and enters two nested for loops one for min and one for sec and starts counting down waiting each iteration one second.
+*		When the internal loop finishes counting down minutes decrement by one.	
+*/
 
 void Counting_Down(int time)
 {  
