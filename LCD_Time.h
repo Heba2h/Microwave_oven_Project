@@ -16,6 +16,12 @@ bool extern check;
 char num[4]={'0','0','0','0'};
 
 
+/**
+*  @author      Aser-ElDahshan
+*  @detailed    This fuction shows on the lcd "Please Press SW2" and initialize the num array elements to have zero characters.
+*/
+
+
 void LCD_time()
 {
 	LCD_cmd(cursor_at_1stline);	
@@ -29,7 +35,10 @@ void LCD_time()
 
 }
 
-
+/**
+*  @author      Aser-ElDahshan
+*  @detailed    This fuction take the time from the user and shift it to the left every time the user enters a new number and return the time in seconds after switch 2 is pressed.
+*/
 
 int Time_Entry()
 {
