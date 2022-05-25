@@ -23,20 +23,21 @@ bool check;
 int ready;
 
 
+
 /**
 *  @detailed  In this project ,We are aiming to implement a Microwave System 
-* 						firsly, flages gonna be clarified:
+* 	      firsly, flages gonna be clarified:
 *             (flag -> refers to sw2 (start button)
 *             ,flag2 -> refers to sw1 (start button)             
 *             ,flag3 -> refers to sw3 (start button), 
-*							,check -> returns a bool of check funtion in state 'Time_Display'
-*											  to check the validation of inputs
-*							,ready -> ready is flaged to 1 when its time to start cooking.
-*												We made this flag because sw2 is interrupt so it can 
-*  											be used anywhere in the code, so to limit its fuctionality 
-*												and make sw2 do not affect the whole program and dont go 
+*	      ,check -> returns a bool of check funtion in state 'Time_Display'
+*			to check the validation of inputs
+*	      ,ready -> ready is flaged to 1 when its time to start cooking.
+*	                We made this flag because sw2 is interrupt so it can 
+*  	                be used anywhere in the code, so to limit its fuctionality 
+*	                and make sw2 do not affect the whole program and dont go 
 *                       immediately to cooking state & stay in same state till its time to cook.)
-*							Secondly, main operations will be explained:
+*	      Secondly, main operations will be explained:
 *             The main starts by intializing then taking in put from user to go to a specific case
 *             and runs its scope till it reach to end state and restarts from the begining. 
 *
