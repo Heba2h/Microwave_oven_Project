@@ -26,17 +26,18 @@ void LCD_time()
 {
 	LCD_cmd(cursor_at_1stline);	
 	LCD_PrintStr("Please Press SW2");
-      num[0] ='0';
-			num[1] ='0';
-			num[2] ='0';
-			num[3] ='0';		
+	Leds_off();
+        num[0] ='0';
+	num[1] ='0';
+	num[2] ='0';
+	num[3] ='0';		
 	LCD_cmd(0xC5);
 	LCD_PrintStr("00:00");
 
 }
 
 /**
-*  @author      Aser-ElDahshan
+* 
 *  @detailed    This fuction take the time from the user and shift it to the left every time the user enters a new number and return the time in seconds after switch 2 is pressed.
 */
 
