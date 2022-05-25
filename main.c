@@ -162,6 +162,7 @@ int main(){
 					break;
 		
 		 case Error:
+					Leds_off();
 					LCD_cmd(clear);
 					LCD_PrintStr("Err");
 					Systick_ms(2000);
