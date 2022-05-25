@@ -26,7 +26,6 @@ void LCD_time()
 {
 	LCD_cmd(cursor_at_1stline);	
 	LCD_PrintStr("Please Press SW2");
-	Leds_off();
         num[0] ='0';
 	num[1] ='0';
 	num[2] ='0';
